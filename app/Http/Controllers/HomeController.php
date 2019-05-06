@@ -25,13 +25,12 @@ class HomeController extends Controller
      */
     public function index()
     {
-        //$clients = Client::all();
         $clients = Client::with('assets')->get();
         
         $data = [
             'clients' => $clients,
         ];
-        return $clients;
+        
         return view('home')->with($data);
     }
 }
