@@ -13,6 +13,16 @@ class AssetsController extends Controller
 {
 
     /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
+    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -34,18 +44,7 @@ class AssetsController extends Controller
 
         Zipper::make( $request->file('asset') )->extractTo( storage_path('app/public/' . $client->directory . '/' . $asset->uri ) );
 
-        return back();
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Asset  $asset
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Asset $asset)
-    {
-        //
+        return redirect()->action('HomeController@index');
     }
 
     /**
@@ -56,6 +55,13 @@ class AssetsController extends Controller
      */
     public function destroy(Asset $asset)
     {
-        //
+        
+        $directory = $asset->client_dir.'/'.$asset->uri;
+        
+        $asset->delete();
+        
+        Storage::deleteDirectory($directory);
+        
+        return redirect()->action('HomeController@index');
     }
 }

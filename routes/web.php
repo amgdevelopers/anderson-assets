@@ -18,4 +18,5 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
-Route::post('/assets', 'AssetsController@store')->name('assets');
+Route::post('/assets', 'AssetsController@store')->name('assets.store');
+Route::delete('/assets/{asset}', 'AssetsController@destroy')->name('assets.destroy');

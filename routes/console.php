@@ -1,5 +1,6 @@
 <?php
 
+use App\User;
 use Illuminate\Foundation\Inspiring;
 
 /*
@@ -16,3 +17,13 @@ use Illuminate\Foundation\Inspiring;
 Artisan::command('inspire', function () {
     $this->comment(Inspiring::quote());
 })->describe('Display an inspiring quote');
+
+Artisan::command('user:create', function () {
+	$email = $this->ask('Email Address');
+	$password = $this->secret('Password');
+	$user = User::updateOrCreate(
+		['email' => $email],
+		['password' => bcrypt($password)]
+	);
+	$this->info('User has been updated or created successfully.');
+})->describe('Create or Update a user for the application.');
