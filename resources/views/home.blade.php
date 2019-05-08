@@ -59,7 +59,7 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="custom-file">
-                                    <input onchange="updateLabel()" type="file" class="custom-file-input" id="asset" name="asset">
+                                    <input type="file" class="custom-file-input" id="asset" name="asset">
                                     <label class="custom-file-label text-truncate" for="asset">Choose File</label>
                                     @error('asset')
                                         <span class="invalid-feedback" role="alert">
@@ -88,14 +88,14 @@
             @forelse ($client->assets as $asset)
                 <div class="media text-muted pt-3">
                     <i class="mr-3 fab fa-html5 fa-2x"></i>
-                    <div class="media-body pb-2 mb-0 small border-bottom border-gray">
+                    <div class="@unless($loop->last)border-bottom pb-2 @endunless media-body mb-0 small border-gray">
                         <form class="w-100 d-inline" action="{{ route('assets.destroy', ['id' => $asset->id]) }}" method="POST">
                             @method('DELETE')
                             @csrf
                             <strong><a href="{{ secure_url("storage/{$asset->client_dir}/{$asset->uri}/index.html") }}" target="_blank" id="link-{{$asset->id}}" class="text-muted">{{ $asset->uri }}</a></strong>  
-                            <button type="submit" class="btn float-right py-0 px-2 border-0 text-primary" title="Delete HTML5 Ad"><i class="far fa-trash-alt" style="font-size:1.2rem;"></i></button>
+                            <button type="submit" class="btn btn-icon float-right py-0 px-2 border-0 text-primary" title="Delete HTML5 Ad"><i class="far fa-trash-alt"></i></button>
                         </form>
-                        <button class="btn float-right py-0 px-2 border-0 text-primary" onclick="copyLink({{$asset->id}})" title="Copy Link To Clipboard"><i class="far fa-clipboard" style="font-size:1.2rem;"></i></button>
+                        <button class="btn btn-icon float-right py-0 px-2 border-0 text-primary" @click="copyLink( {{$asset->id}} )" title="Copy Link To Clipboard"><i class="far fa-clipboard"></i></button>
                     </div>
                 </div>
             @empty
@@ -113,20 +113,4 @@
         </div>
     @endforelse
 </div>
-<script type="application/javascript">
-    function copyLink(assetID) {
-        updateClipboard(document.getElementById('link-' + assetID).href);
-    }
-
-    function updateClipboard(newClip) {
-        navigator.clipboard.writeText(newClip).then(function() {
-            console.log('Copied Link: ' + newClip);
-        }, function() {
-            console.log('Problem with copying to clipboard.');
-        });
-    }
-    
-    bsCustomFileInput.init()
-    
-</script>
 @endsection

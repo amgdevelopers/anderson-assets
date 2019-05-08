@@ -8,4 +8,4 @@ Registration for the app is handled via the command line using `php artisan user
 Once registered you can login to the application and use the form to upload your zip file and create the public link to the HTML5 banner ad.
 
 ## Going Forward
-This is an MVP app that was created quickly for our agency to help us with HTML5 banner ad approvals. We may continue to add features
+This is a quick MVP that was created for our agency to help us with HTML5 banner ad approvals. We may continue to add features to this application.
