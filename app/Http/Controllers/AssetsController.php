@@ -38,8 +38,7 @@ class AssetsController extends Controller
         );
 
         $asset = Asset::firstOrCreate(
-            [ 'uri' => $request->job . '-' . $request->size ],
-            [ 'client_dir' => $client->directory ]
+            [ 'uri' => $request->job . '-' . $request->size, 'client_dir' => $client->directory ]
         );
 
         Zipper::make( $request->file('asset') )->extractTo( storage_path('app/public/' . $client->directory . '/' . $asset->uri ) );
