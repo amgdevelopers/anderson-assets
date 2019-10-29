@@ -7,7 +7,6 @@ use App\Client;
 use Illuminate\Support\Str;
 use Illuminate\Support\Arr;
 use Illuminate\Http\Request;
-use Chumper\Zipper\Facades\Zipper;
 use Illuminate\Support\Facades\Storage;
 
 class AssetsController extends Controller
@@ -62,27 +61,20 @@ class AssetsController extends Controller
             if( in_array('index.html', $files) ) {
                 $zip->extractTo( storage_path('app/public/' . $client->directory . '/' . $asset->uri ), $files);
             } else {
-                // this does not work yet
+                $index_html = Arr::first($files, function ($value, $key) {
+                    return Str::endsWith($value, '/index.html');
+                });
+                $slice = Str::before($index_html, 'index.html');
+
                 foreach ( $files as $file ) 
                 {
-                    $slice = Str::before($file, 'index.html');
-                    if( $slice !== $file ) {
-                        break;
-                    }
+                    $new_name = str_replace($slice, '', $file);
+                    $zip->renameName($file, $new_name);
+                    $zip->extractTo( storage_path('app/public/' . $client->directory . '/' . $asset->uri ), $new_name);
                 }
-
-                $filtered_files = array_map(function($file) use ($slice) {
-                    return str_replace($slice, '', $file);
-                }, $files);
-
-                // $zip->extractTo( storage_path('app/public/' . $client->directory . '/' . $asset->uri ), $filtered_files);
-                dd($filtered_files);
             }
-            
             $zip->close();                  
         }
-
-        // Zipper::make( $request->file('asset') )->extractTo( storage_path('app/public/' . $client->directory . '/' . $asset->uri ) );
 
         return redirect()->action('HomeController@index');
     }
