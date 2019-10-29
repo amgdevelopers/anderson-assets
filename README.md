@@ -1,5 +1,10 @@
 # Anderson HTML5 Assets
-Simple Laravel 5.8 application that gives you the ability to create a public link for an uploaded HTML5 banner. Your uploaded zip file needs to contain an index.html and all assets used for the ad in the root of the folder.
+Simple Laravel 5.8 application that gives you the ability to create a public link for an uploaded HTML5 banner. Your uploaded zip file must contain an index.html file and all assets used for the ad.
+
+## Installation
+1. Clone or fork this repository on your system
+2. run `composer install`
+3. run `php artisan storage:link`
 
 ## User Registration
 Registration for the app is handled via the command line using `php artisan user:create`. You will be asked for the email and password for the user. If the email is already registered the user will be updated with the password provided.
